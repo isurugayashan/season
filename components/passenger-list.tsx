@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Trash2, Search } from "lucide-react"
+import {useUser} from "@clerk/nextjs";
 
 interface Passenger {
   _id: string
@@ -20,6 +21,13 @@ interface Passenger {
 }
 
 export default function PassengerList() {
+
+  const { user } = useUser()
+  const role = user?.publicMetadata?.role
+
+  const isAdmin = role === "admin"
+
+
   const [passengers, setPassengers] = useState<Passenger[]>([])
   const [filteredPassengers, setFilteredPassengers] = useState<Passenger[]>([])
   const [loading, setLoading] = useState(true)
@@ -140,7 +148,7 @@ export default function PassengerList() {
                   <th className="text-left py-3 px-4 font-medium">Season Fee</th>
                   <th className="text-left py-3 px-4 font-medium">End Location</th>
                   <th className="text-left py-3 px-4 font-medium">Duration</th>
-                  <th className="text-left py-3 px-4 font-medium">Action</th>
+                  {isAdmin &&<th className="text-left py-3 px-4 font-medium">Action</th>}
                 </tr>
                 </thead>
                 <tbody>
@@ -155,7 +163,7 @@ export default function PassengerList() {
                       <td className="py-3 px-4">{passenger.fee}</td>
                       <td className="py-3 px-4">{passenger.endlocation}</td>
                       <td className="py-3 px-4">{passenger.duration}</td>
-                      <td className="py-3 px-4">
+                      {isAdmin &&<td className="py-3 px-4">
                         <Button
                             variant="ghost"
                             size="sm"
@@ -164,7 +172,7 @@ export default function PassengerList() {
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
-                      </td>
+                      </td>}
                     </tr>
                 ))}
                 </tbody>
