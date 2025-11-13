@@ -13,7 +13,10 @@ interface Passenger {
   _id: string
   name: string
   empid: string
-  department: string
+  department: {
+    _id: string
+    name: string
+  }
   fee: number
   mobile: string
   endlocation: string
@@ -265,7 +268,7 @@ export default function MonthlySelection() {
                               {passenger.empid}
                             </Badge>
                             <Badge variant="secondary" className="text-xs">
-                              {passenger.department}
+                              {passenger.department.name}
                             </Badge>
                           </div>
                         </div>

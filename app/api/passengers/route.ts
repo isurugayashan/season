@@ -1,21 +1,24 @@
-import { NextRequest, NextResponse } from "next/server"
-import {connectDB} from "@/lib/mongodb";
-import {Passenger} from "@/lib/Passenger";
-import {Department} from "@/lib/Department";
+import { connectDB } from "@/lib/mongodb";
+import {Passenger} from "@/lib/models/Passenger";
+import {Department} from "@/lib/models/Department";
+import {NextRequest, NextResponse} from "next/server";
 
-
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    await connectDB()
+    await connectDB();
+    const passengers = await Passenger.find({})
+        .populate("department")
+        .sort({ createdAt: -1 })
+        .lean();
 
-    const passengers = await Passenger.find({}).sort({ createdAt: -1 })
-
-    return NextResponse.json({ passengers })
+    return NextResponse.json({ passengers });
   } catch (error) {
-    console.error("Get passengers error:", error)
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 })
+    console.error("❌ Error fetching passengers:", error);
+    // @ts-ignore
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
 
 export async function POST(request: NextRequest) {
   try {

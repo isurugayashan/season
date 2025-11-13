@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {connectDB} from "@/lib/mongodb";
-import {Department} from "@/lib/Department";
+import {Department} from "@/lib/models/Department";
 
 export async function GET(request: NextRequest) {
 

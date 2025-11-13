@@ -12,8 +12,10 @@ export const metadata: Metadata = {
     title: "Bus Season Check System",
     description: "Team member bus season management",
     generator: "v0.app",
+    icons: {
+        icon: "https://e7.pngegg.com/pngimages/690/653/png-clipart-urban-development-authority-uda-head-office-organization-sustainable-development-road-development-authority-urban-complex-miscellaneous-angle.png"
+    }
 }
-
 export default function RootLayout({
                                        children,
                                    }: Readonly<{

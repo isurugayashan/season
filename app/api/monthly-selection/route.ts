@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { connectDB } from "@/lib/mongodb"
 import mongoose from "mongoose"
-import {MonthlySelection} from "@/lib/MonthlySelection";
+import {MonthlySelection} from "@/lib/models/MonthlySelection";
 
 export async function GET(request: NextRequest) {
   try {
