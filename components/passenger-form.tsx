@@ -219,7 +219,7 @@ export default function PassengerForm() {
   return (
       <form onSubmit={handleSubmit} className="space-y-4">
         {message && (
-            <Alert variant={messageType === "error" ? "destructive" : "default"}>
+            <Alert variant={messageType === "error" ? "destructive" : "default"} >
               <AlertDescription>{message}</AlertDescription>
             </Alert>
         )}

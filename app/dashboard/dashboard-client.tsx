@@ -39,9 +39,9 @@ export default function DashboardClient() {
                             <>
                                 <TabsTrigger value="add-passenger">Add Passenger</TabsTrigger>
                                 <TabsTrigger value="monthly">Monthly Selection</TabsTrigger>
-                                <TabsTrigger value="reports">Reports</TabsTrigger>
                             </>
                         )}
+                        <TabsTrigger value="reports">Reports</TabsTrigger>
                     </TabsList>
 
                     {/* Passenger List */}
@@ -88,7 +88,6 @@ export default function DashboardClient() {
                     )}
 
                     {/* Reports */}
-                    {isAdmin && (
                         <TabsContent value="reports" className="space-y-4">
                             <Card>
                                 <CardHeader>
@@ -100,7 +99,6 @@ export default function DashboardClient() {
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                    )}
                 </Tabs>
             </main>
         </div>

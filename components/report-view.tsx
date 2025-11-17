@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Printer, Download, Calendar } from "lucide-react"
+import {useUser} from "@clerk/nextjs";
 
 interface MonthlyRecord {
   _id: string
@@ -34,6 +35,11 @@ export default function ReportView() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7))
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState("")
+
+
+  const { user } = useUser()
+  const role = user?.publicMetadata?.role
+  const isAdmin = role === "admin"
 
   useEffect(() => {
     fetchData()
@@ -108,24 +114,24 @@ export default function ReportView() {
               <AlertDescription>{message}</AlertDescription>
             </Alert>
         )}
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              Select Report Month
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <input
-                type="month"
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md bg-background"
-            />
-          </CardContent>
-        </Card>
-
+        {isAdmin && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Select Report Month
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <input
+                    type="month"
+                    value={selectedMonth}
+                    onChange={(e) => setSelectedMonth(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md bg-background"
+                />
+              </CardContent>
+            </Card>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="pb-2">
@@ -163,16 +169,18 @@ export default function ReportView() {
           </Card>
         </div>
 
-        <div className="flex gap-2 flex-wrap print:hidden">
-          <Button onClick={handlePrint} className="gap-2" variant="default">
-            <Printer className="w-4 h-4" />
-            Print Report
-          </Button>
-          <Button onClick={handleExportCSV} className="gap-2 bg-transparent" variant="outline">
-            <Download className="w-4 h-4" />
-            Export CSV
-          </Button>
-        </div>
+        {isAdmin && (
+            <div className="flex gap-2 flex-wrap print:hidden">
+              <Button onClick={handlePrint} className="gap-2" variant="default">
+                <Printer className="w-4 h-4" />
+                Print Report
+              </Button>
+              <Button onClick={handleExportCSV} className="gap-2 bg-transparent" variant="outline">
+                <Download className="w-4 h-4" />
+                Export CSV
+              </Button>
+            </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* With Season */}
